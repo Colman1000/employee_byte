@@ -9,6 +9,10 @@ class AuthController extends GetxController {
     _currentPage.value = value;
   }
 
+  void goBack() {
+    _currentPage.value = _prevPage.value;
+  }
+
   AuthPage get currentPage => _currentPage.value;
 
   AuthPage get prevPage => _prevPage.value;

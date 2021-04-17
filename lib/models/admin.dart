@@ -10,6 +10,7 @@ class Admin extends User {
     required String country,
     required String state,
     required this.password,
+    required this.username,
     String? passportPhoto,
   }) : super(
           firstname: firstname,
@@ -21,5 +22,21 @@ class Admin extends User {
           state: state,
           passportPhoto: passportPhoto,
         );
+
+  factory Admin.fromMap(Map<String, Object?> m) {
+    return Admin(
+      firstname: m['firstname'].toString(),
+      lastname: m['lastname'].toString(),
+      gender: m['gender'].toString(),
+      dateOfBirth: DateTime.parse(m['dateOfBirth'].toString()),
+      address: m['address'].toString(),
+      country: m['country'].toString(),
+      state: m['state'].toString(),
+      password: m['password'].toString(),
+      username: m['username'].toString(),
+    );
+  }
+
   final String password;
+  final String username;
 }

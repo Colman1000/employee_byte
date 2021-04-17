@@ -12,6 +12,8 @@
 *
 * */
 
+import 'dart:convert';
+
 abstract class User {
   User({
     required this.firstname,
@@ -32,4 +34,23 @@ abstract class User {
   final String address;
   final String country;
   final String state;
+
+  Map<String, String> get _toMap => {
+        'firstname': firstname,
+        'lastname': lastname,
+        'gender': gender,
+        'dateOfBirth': dateOfBirth.toString(),
+        'passportPhoto': passportPhoto ?? '',
+        'address': address,
+        'country': country,
+        'state': state,
+      };
+
+  Map<String, String> toMap(Map<String, String>? additionalInfo) {
+    return {..._toMap, ...?additionalInfo};
+  }
+
+  String toJson(Map<String, String>? additionalInfo) {
+    return jsonEncode({..._toMap, ...?additionalInfo});
+  }
 }
