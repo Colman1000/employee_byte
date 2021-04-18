@@ -10,7 +10,7 @@ class SignUpController extends GetxController {
   final firstName = ''.obs;
   final lastName = ''.obs;
   final gender = ''.obs;
-  final dateOfBirth = DateTime.now().obs;
+  final dateOfBirth = Rx<DateTime?>(null);
   final passport = ''.obs; //TODO: get passport image
   final address = ''.obs;
   final country = ''.obs;
@@ -34,7 +34,7 @@ class SignUpController extends GetxController {
     final _admin = Admin(
       firstname: firstName.value,
       lastname: lastName.value,
-      dateOfBirth: dateOfBirth.value,
+      dateOfBirth: dateOfBirth.value!,
       gender: gender.value,
       country: country.value,
       state: state.value,
@@ -60,12 +60,13 @@ class SignUpController extends GetxController {
 
   void next(int maxSteps) {
     if (_step.value == 0) {
+      final _isValidDate = dateOfBirth.value != null &&
+          (dateOfBirth.value!).isBefore(DateTime.now().subtract(1.days));
+
       final _isValid = firstName.value.isNotEmpty &&
-              lastName.value.isNotEmpty &&
-              gender.value
-                  .isNotEmpty /*&&
-          dateOfBirth.value.isBefore(DateTime.now().subtract(1.days))*/
-          ;
+          lastName.value.isNotEmpty &&
+          gender.value.isNotEmpty &&
+          _isValidDate;
 
       if (!_isValid) {
         return Helpers.showSnackBar(

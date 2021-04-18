@@ -9,7 +9,7 @@ class AddEmployeeController extends GetxController {
   final lastName = ''.obs;
   final gender = ''.obs;
   final designation = ''.obs;
-  final dateOfBirth = DateTime.now().obs;
+  final dateOfBirth = Rx<DateTime?>(null);
   final passport = ''.obs;
   final address = ''.obs;
   final country = ''.obs;
@@ -25,7 +25,7 @@ class AddEmployeeController extends GetxController {
     final _employee = Employee(
       firstname: firstName.value,
       lastname: lastName.value,
-      dateOfBirth: dateOfBirth.value,
+      dateOfBirth: dateOfBirth.value!,
       gender: gender.value,
       country: country.value,
       state: state.value,
@@ -40,12 +40,13 @@ class AddEmployeeController extends GetxController {
 
   void next(int maxSteps) {
     if (_step.value == 0) {
+      final _isValidDate = dateOfBirth.value != null &&
+          (dateOfBirth.value!).isBefore(DateTime.now().subtract(1.days));
+
       final _isValid = firstName.value.isNotEmpty &&
-              lastName.value.isNotEmpty &&
-              gender.value
-                  .isNotEmpty /*&&
-          dateOfBirth.value.isBefore(DateTime.now().subtract(1.days))*/
-          ;
+          lastName.value.isNotEmpty &&
+          gender.value.isNotEmpty &&
+          _isValidDate;
 
       if (!_isValid) {
         return Helpers.showSnackBar(

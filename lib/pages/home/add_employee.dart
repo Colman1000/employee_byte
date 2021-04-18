@@ -5,6 +5,7 @@ import 'package:employee_byte/models/input_type.dart';
 import 'package:employee_byte/pages/home/add_employee_controller.dart';
 import 'package:employee_byte/widgets/button.dart';
 import 'package:employee_byte/widgets/cover.dart';
+import 'package:employee_byte/widgets/date_picker_widget.dart';
 import 'package:employee_byte/widgets/render_form_inputs.dart';
 import 'package:flutter/cupertino.dart' hide State;
 import 'package:flutter/material.dart' hide State;
@@ -116,17 +117,6 @@ Step _bioStep({
               ),
             ),
             InputType(
-              key: 'designation',
-              onChanged: (v) {
-                _addEmployeeController.designation.value = v.trim();
-              },
-              val: _addEmployeeController.designation.value,
-              decoration: AppTheme.inputDecor(
-                const Icon(Icons.assignment_ind_outlined),
-                'Designation',
-              ),
-            ),
-            InputType(
               custom: DropdownButtonFormField<String>(
                 key: const Key('gender'),
                 value: _addEmployeeController.gender.value.isEmpty
@@ -156,6 +146,26 @@ Step _bioStep({
                     horizontal: 10,
                   ),
                 ),
+              ),
+            ),
+            InputType(
+              key: 'designation',
+              onChanged: (v) {
+                _addEmployeeController.designation.value = v.trim();
+              },
+              val: _addEmployeeController.designation.value,
+              decoration: AppTheme.inputDecor(
+                const Icon(Icons.assignment_ind_outlined),
+                'Designation',
+              ),
+            ),
+            InputType(
+              custom: DatePickerWidget(
+                onChanged: (v) {
+                  _addEmployeeController.dateOfBirth.value = v;
+                },
+                value: _addEmployeeController.dateOfBirth.value,
+                hintText: 'Select Date of Birth',
               ),
             ),
           ],
