@@ -1,3 +1,7 @@
+import 'package:employee_byte/models/employee.dart';
+import 'package:employee_byte/pages/home/home_controller.dart';
+import 'package:employee_byte/widgets/employee_display_widget.dart';
+import 'package:employee_byte/widgets/empty_list_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -133,6 +137,143 @@ class Helpers {
       default:
         HapticFeedback.vibrate();
     }
+  }
+}
+
+class EmployeeSearchDelegate<T> extends SearchDelegate {
+  final _maxResultSet = 15;
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      CloseButton(
+        onPressed: () {
+          query = '';
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back_ios),
+      onPressed: Get.back,
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final employees = <int, Employee>{};
+    final _homeController = Get.find<HomeController>();
+
+    if (query.isEmpty) {
+      for (final entry in _homeController.employees.entries) {
+        employees[entry.key] = entry.value;
+        if (employees.length >= _maxResultSet) {
+          //stop loop and return results... results too long
+          break;
+        }
+      }
+    } else {
+      for (final entry in _homeController.employees.entries) {
+        if (entry.value.fullName.toLowerCase().contains(query.toLowerCase())) {
+          employees[entry.key] = entry.value;
+        }
+
+        if (employees.length >= _maxResultSet) {
+          //stop loop and return results... results too long
+          break;
+        }
+      }
+    }
+
+    final employeeIDs = employees.keys.toList();
+
+    if (employeeIDs.isEmpty) {
+      return ListView(
+        children: [
+          SizedBox(
+            height: Get.height * 0.25,
+          ),
+          EmptyListPlaceholder(
+            icon: Icons.search_outlined,
+            tag: 'No Match',
+            instruction: 'No Employee Match For [ $query ]',
+          ),
+        ],
+      );
+    }
+
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        final _id = employeeIDs[index];
+        return EmployeeTileDisplay(
+          employee: employees[_id]!,
+          id: _id,
+          onTap: (m) => Get.back<Map<int, Employee>>(result: m),
+        );
+      },
+      itemCount: employeeIDs.length,
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    if (query.isEmpty) return const SizedBox();
+
+    final employees = <int, Employee>{};
+    final _homeController = Get.find<HomeController>();
+
+    if (query.isEmpty) {
+      for (final entry in _homeController.employees.entries) {
+        employees[entry.key] = entry.value;
+        if (employees.length >= _maxResultSet) {
+          //stop loop and return results... results too long
+          break;
+        }
+      }
+    } else {
+      for (final entry in _homeController.employees.entries) {
+        if (entry.value.fullName.toLowerCase().contains(query.toLowerCase())) {
+          employees[entry.key] = entry.value;
+        }
+
+        if (employees.length >= _maxResultSet) {
+          //stop loop and return results... results too long
+          break;
+        }
+      }
+    }
+
+    final employeeIDs = employees.keys.toList();
+
+    if (employeeIDs.isEmpty) {
+      return ListView(
+        children: [
+          SizedBox(
+            height: Get.height * 0.25,
+          ),
+          EmptyListPlaceholder(
+            icon: Icons.search_outlined,
+            tag: 'No Match',
+            instruction: 'No Employee Match For [ $query ]',
+          ),
+        ],
+      );
+    }
+
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        final _id = employeeIDs[index];
+        return EmployeeTileDisplay(
+          employee: employees[_id]!,
+          id: _id,
+          onTap: (m) => Get.back<Map<int, Employee>>(result: m),
+        );
+      },
+      itemCount: employeeIDs.length,
+    );
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:employee_byte/globals/helpers.dart';
 import 'package:employee_byte/models/employee.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sembast/sembast.dart';
 
@@ -24,6 +25,19 @@ class HomeController extends GetxController {
       ..._allEmployees,
       ...{id: employee}
     };
+  }
+
+  Future findEmployee(BuildContext context) async {
+    final _employee = await showSearch(
+      context: context,
+      delegate: EmployeeSearchDelegate<Map<int, Employee>>(),
+    ) as Map<int, Employee>;
+
+    viewEmployee(employee: _employee.values.first, id: _employee.keys.first);
+  }
+
+  void viewEmployee({required Employee employee, required int id}) {
+    print(employee);
   }
 
   @override

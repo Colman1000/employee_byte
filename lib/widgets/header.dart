@@ -7,17 +7,21 @@ class Header extends StatelessWidget {
   const Header({
     Key? key,
     required HeaderLeadingWidget title,
-    this.action,
+    this.actions,
     this.padding = const EdgeInsets.symmetric(horizontal: 30),
   })  : _title = title,
         super(key: key);
 
   final HeaderLeadingWidget _title;
-  final Widget? action;
+  final List<Widget>? actions;
   final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
+    final _noAction = actions == null || (actions?.isEmpty ?? true);
+
+    final _actions = _noAction ? <Widget>[] : actions as List<Widget>;
+
     return Column(
       children: <Widget>[
         const SizedBox(
@@ -30,7 +34,7 @@ class Header extends StatelessWidget {
               Expanded(
                 child: _title.child,
               ),
-              ...[action ?? const SizedBox()]
+              ..._actions
             ],
           ),
         ),
