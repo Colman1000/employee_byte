@@ -21,8 +21,11 @@ class EmployeeTileDisplay extends StatelessWidget {
         title: Text(employee.fullName),
         subtitle: Text(employee.designation),
         trailing: const Icon(Icons.person_outline),
+        enableFeedback: true,
         onTap: () {
-          onTap(<int, Employee>{id: employee});
+          onTap(
+            <int, Employee>{id: employee},
+          );
         },
       ),
     );

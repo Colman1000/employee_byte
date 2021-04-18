@@ -8,6 +8,7 @@ class Header extends StatelessWidget {
     Key? key,
     required HeaderLeadingWidget title,
     this.actions,
+    this.hasBackButton = false,
     this.padding = const EdgeInsets.symmetric(horizontal: 30),
   })  : _title = title,
         super(key: key);
@@ -15,6 +16,7 @@ class Header extends StatelessWidget {
   final HeaderLeadingWidget _title;
   final List<Widget>? actions;
   final EdgeInsets padding;
+  final bool hasBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,11 @@ class Header extends StatelessWidget {
           padding: padding,
           child: Row(
             children: <Widget>[
+              if (hasBackButton)
+                BackButton(
+                  color: Colors.red.shade800,
+                  onPressed: Get.back,
+                ),
               Expanded(
                 child: _title.child,
               ),

@@ -1,5 +1,6 @@
 import 'package:employee_byte/globals/helpers.dart';
 import 'package:employee_byte/models/employee.dart';
+import 'package:employee_byte/pages/view_employee/view_employee.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,7 @@ class HomeController extends GetxController {
   final employees = <int, Employee>{}.obs;
   final initializingEmployeeList = true.obs;
 
-  Future addEmployee(Employee employee) async {
+  Future<void> addEmployee(Employee employee) async {
     final store = intMapStoreFactory.store('employees');
 
     final db = Get.find<DB>();
@@ -27,7 +28,20 @@ class HomeController extends GetxController {
     };
   }
 
-  Future findEmployee(BuildContext context) async {
+  Future<void> removeEmployee(int key) async {
+    final store = intMapStoreFactory.store('employees');
+
+    final db = Get.find<DB>();
+
+    final deleted = await store.record(key).delete(db.instance!);
+
+    final _allEmployees = employees.value..remove(key);
+    employees.value = {
+      ..._allEmployees,
+    };
+  }
+
+  Future<void> findEmployee(BuildContext context) async {
     final _employee = await showSearch(
       context: context,
       delegate: EmployeeSearchDelegate<Map<int, Employee>>(),
@@ -37,7 +51,15 @@ class HomeController extends GetxController {
   }
 
   void viewEmployee({required Employee employee, required int id}) {
-    print(employee);
+    Get.to(
+      () => ViewEmployee(id: id, employee: employee),
+      fullscreenDialog: true,
+      preventDuplicates: false,
+      curve: Curves.decelerate,
+      duration: 200.milliseconds,
+      transition: Transition.rightToLeftWithFade,
+      popGesture: true,
+    );
   }
 
   @override

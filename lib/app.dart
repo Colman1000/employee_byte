@@ -23,7 +23,11 @@ class MyApp extends StatelessWidget {
         Get.put<AppController>(AppController(), permanent: true);
         Get.put<AuthController>(AuthController(), permanent: true);
         final db = await Get.putAsync<DB>(
-          () async => DB()..init(),
+          () async {
+            final _db = DB();
+            await _db.init();
+            return _db;
+          },
           permanent: true,
         );
         //TODO: improve this. [HomeController] should not totally depend on [DB]

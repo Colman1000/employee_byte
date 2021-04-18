@@ -19,4 +19,4 @@ linter:
     public_member_api_docs: false
 
     # Back to the 80s
-    lines_longer_than_80_chars: true
+    lines_longer_than_80_chars: false

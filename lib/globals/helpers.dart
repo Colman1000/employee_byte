@@ -2,6 +2,7 @@ import 'package:employee_byte/models/employee.dart';
 import 'package:employee_byte/pages/home/home_controller.dart';
 import 'package:employee_byte/widgets/employee_display_widget.dart';
 import 'package:employee_byte/widgets/empty_list_placeholder.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -137,6 +138,58 @@ class Helpers {
       default:
         HapticFeedback.vibrate();
     }
+  }
+
+  static Future<bool?> confirm({
+    String title = 'Are you sure?',
+    String prompt = '',
+    required BuildContext context,
+  }) {
+    return showCupertinoDialog<bool>(
+      context: context,
+      builder: (context) {
+        final _font = Get.textTheme.headline6?.fontFamily;
+        return CupertinoAlertDialog(
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              title.toString(),
+              style: Get.textTheme.headline6,
+            ),
+          ),
+          content: Text(
+            prompt.toString(),
+            style: Get.textTheme.bodyText2,
+          ),
+          actions: [
+            CupertinoActionSheetAction(
+              onPressed: () {
+                Get.back(result: false);
+              },
+              child: Text(
+                'NO',
+                style: const TextStyle().copyWith(
+                  fontFamily: _font,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () {
+                Get.back(result: true);
+              },
+              isDestructiveAction: true,
+              child: Text(
+                'YES',
+                style: TextStyle().copyWith(fontFamily: _font),
+              ),
+            ),
+          ],
+          insetAnimationCurve: Curves.easeOutCubic,
+          insetAnimationDuration: const Duration(milliseconds: 200),
+        );
+      },
+    );
   }
 }
 

@@ -63,7 +63,7 @@ class SignIn extends StatelessWidget {
       ),
       Obx(
         () => Button(
-          label: 'HELLO',
+          label: 'RESUME',
           onPressed: _signInController.login,
           loading: _signInController.isLoggingIn.value,
         ),
