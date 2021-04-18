@@ -44,8 +44,10 @@ class HomeController extends GetxController {
   Future<void> findEmployee(BuildContext context) async {
     final _employee = await showSearch(
       context: context,
-      delegate: EmployeeSearchDelegate<Map<int, Employee>>(),
-    ) as Map<int, Employee>;
+      delegate: EmployeeSearchDelegate<Map<int, Employee>?>(),
+    ) as Map<int, Employee>?;
+
+    if (_employee == null) return;
 
     viewEmployee(employee: _employee.values.first, id: _employee.keys.first);
   }

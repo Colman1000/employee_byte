@@ -1,13 +1,18 @@
 import 'package:employee_byte/globals/helpers.dart';
 import 'package:employee_byte/globals/theme.dart';
+import 'package:employee_byte/models/country.dart';
 import 'package:employee_byte/models/input_type.dart';
 import 'package:employee_byte/pages/auth/auth_controller.dart';
 import 'package:employee_byte/pages/signup/sign_up_controller.dart';
 import 'package:employee_byte/widgets/button.dart';
 import 'package:employee_byte/widgets/cover.dart';
 import 'package:employee_byte/widgets/render_form_inputs.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart' hide State;
+import 'package:flutter/material.dart' hide State;
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
+
+import '../../app_controller.dart';
 
 class SignUp extends StatelessWidget {
   SignUp() {
@@ -188,25 +193,119 @@ Step _geography({
         RenderFormInputs(
           inputs: [
             InputType(
-              key: 'country',
-              onChanged: (v) {
-                _signUpController.country.value = v.trim();
-              },
-              val: _signUpController.country.value,
-              decoration: AppTheme.inputDecor(
-                const Icon(Icons.location_searching),
-                'Country',
+              custom: Obx(
+                () {
+                  return TypeAheadFormField<Country>(
+                    key: Key(_signUpController.country.value),
+                    itemBuilder: (context, country) => ListTile(
+                      title: Text(country.name),
+                      subtitle: Text(country.code),
+                      dense: true,
+                      enableFeedback: true,
+                    ),
+                    initialValue: _signUpController.country.value,
+                    suggestionsCallback: (query) async {
+                      const _maxResultSet = 15;
+                      final _countries = <Country>[];
+                      final _appController = Get.find<AppController>();
+                      for (final c in await _appController.countries) {
+                        if (c.name
+                            .toLowerCase()
+                            .contains(query.toLowerCase())) {
+                          _countries.add(c);
+                        }
+                        if (_countries.length >= _maxResultSet) {
+                          break;
+                        }
+                      }
+                      return _countries;
+                    },
+                    hideOnEmpty: true,
+                    onSuggestionSelected: (country) {
+                      _signUpController.country.value = country.name;
+                      _signUpController.uiStates.value = country.states;
+                    },
+                    animationDuration: 200.milliseconds,
+                    loadingBuilder: (context) => const SizedBox(
+                      height: 50,
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    ),
+                    getImmediateSuggestions: true,
+                    noItemsFoundBuilder: (context) => SizedBox(
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          'No Such Country Found',
+                          style: Get.textTheme.caption,
+                        ),
+                      ),
+                    ),
+                    textFieldConfiguration: TextFieldConfiguration(
+                      decoration: AppTheme.inputDecor(
+                        const Icon(Icons.location_searching),
+                        'Country',
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             InputType(
-              key: 'state',
-              onChanged: (v) {
-                _signUpController.state.value = v.trim();
-              },
-              val: _signUpController.state.value,
-              decoration: AppTheme.inputDecor(
-                const Icon(Icons.map_rounded),
-                'State',
+              custom: Obx(
+                () {
+                  return TypeAheadFormField<State>(
+                    key: Key(_signUpController.uiState.value),
+                    itemBuilder: (context, state) => ListTile(
+                      title: Text(state.name),
+                      subtitle: Text(state.code),
+                      dense: true,
+                      enableFeedback: true,
+                    ),
+                    initialValue: _signUpController.state.value,
+                    suggestionsCallback: (query) async {
+                      //TODO: Refactor to helper
+                      const _maxResultSet = 15;
+                      final _states = <State>[];
+                      for (final c in _signUpController.uiStates.value) {
+                        if (c.name
+                            .toLowerCase()
+                            .contains(query.toLowerCase())) {
+                          _states.add(c);
+                        }
+                        if (_states.length >= _maxResultSet) {
+                          break;
+                        }
+                      }
+                      return _states;
+                    },
+                    hideOnEmpty: true,
+                    onSuggestionSelected: (state) {
+                      _signUpController.state.value = state.name;
+                      //The line below makes this widget rebuild
+                      _signUpController.uiState.value = state.name;
+                    },
+                    animationDuration: 200.milliseconds,
+                    loadingBuilder: (context) => const SizedBox(
+                      height: 50,
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    ),
+                    getImmediateSuggestions: true,
+                    noItemsFoundBuilder: (context) => const SizedBox(),
+                    textFieldConfiguration: TextFieldConfiguration(
+                      decoration: AppTheme.inputDecor(
+                        const Icon(Icons.map_rounded),
+                        'State',
+                      ),
+                      onChanged: (v) {
+                        _signUpController.state.value = v.trim();
+                      },
+                    ),
+                  );
+                },
               ),
             ),
             InputType(

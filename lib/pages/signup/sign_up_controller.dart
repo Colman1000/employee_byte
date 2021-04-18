@@ -1,5 +1,6 @@
 import 'package:employee_byte/globals/helpers.dart';
 import 'package:employee_byte/models/admin.dart';
+import 'package:employee_byte/models/country.dart';
 import 'package:get/get.dart';
 import 'package:sembast/sembast.dart';
 
@@ -16,6 +17,9 @@ class SignUpController extends GetxController {
   final state = ''.obs;
   final username = ''.obs;
   final password = ''.obs;
+
+  final uiState = ''.obs; //used for updating ui when a state is selected
+  final uiStates = <State>[].obs;
 
   final _step = 0.obs;
 

@@ -1,4 +1,5 @@
 import 'package:employee_byte/globals/helpers.dart';
+import 'package:employee_byte/models/country.dart';
 import 'package:employee_byte/models/employee.dart';
 import 'package:employee_byte/pages/home/home_controller.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,10 @@ class AddEmployeeController extends GetxController {
   final address = ''.obs;
   final country = ''.obs;
   final state = ''.obs;
+
+  //For ui update only
+  final uiState = ''.obs; //used for updating ui when a state is selected
+  final uiStates = <State>[].obs;
 
   final _step = 0.obs;
 
