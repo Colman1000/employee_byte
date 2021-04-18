@@ -1,34 +1,36 @@
 import 'package:employee_byte/globals/helpers.dart';
 import 'package:employee_byte/globals/theme.dart';
 import 'package:employee_byte/models/input_type.dart';
-import 'package:employee_byte/pages/auth/auth_controller.dart';
-import 'package:employee_byte/pages/signup/sign_up_controller.dart';
+import 'package:employee_byte/pages/home/add_employee_controller.dart';
 import 'package:employee_byte/widgets/button.dart';
 import 'package:employee_byte/widgets/cover.dart';
 import 'package:employee_byte/widgets/render_form_inputs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignUp extends StatelessWidget {
-  SignUp() {
-    Get.put<SignUpController>(SignUpController());
+class AddEmployee extends StatelessWidget {
+  AddEmployee() {
+    Get.put(AddEmployeeController());
   }
 
   @override
   Widget build(BuildContext context) {
-    final _authController = Get.find<AuthController>();
-
     return Cover(
       child: Column(
         children: [
           Expanded(
-            child: SingUpView(),
+            child: AddEmployeeView(),
           ),
           TextButton(
-            onPressed: () {
-              _authController.goTo(AuthPage.signIn);
-            },
-            child: Text('SIGN IN AS ADMIN'),
+            onPressed: Get.back,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(Icons.close_outlined, size: 16),
+                SizedBox(width: 10),
+                Text('CANCEL')
+              ],
+            ),
           ),
           const SizedBox(
             height: 15,
@@ -39,33 +41,29 @@ class SignUp extends StatelessWidget {
   }
 }
 
-class SingUpView extends StatelessWidget {
+class AddEmployeeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _signUpController = Get.find<SignUpController>();
+    final _addEmployeeController = Get.find<AddEmployeeController>();
 
-    const _stepsIndexCount = 2;
+    const _stepsIndexCount = 1;
 
     return Obx(
       () => Stepper(
         steps: [
           _bioStep(
             totalSteps: _stepsIndexCount,
-            currentIndex: _signUpController.step,
+            currentIndex: _addEmployeeController.step,
           ),
           _geography(
             totalSteps: _stepsIndexCount,
-            currentIndex: _signUpController.step,
-          ),
-          _login(
-            totalSteps: _stepsIndexCount,
-            currentIndex: _signUpController.step,
+            currentIndex: _addEmployeeController.step,
           ),
         ],
         controlsBuilder: (context, {onStepCancel, onStepContinue}) =>
             const SizedBox(),
         type: StepperType.horizontal,
-        currentStep: _signUpController.step,
+        currentStep: _addEmployeeController.step,
       ),
     );
   }
@@ -75,7 +73,7 @@ Step _bioStep({
   required int totalSteps,
   required int currentIndex,
 }) {
-  final _signUpController = Get.find<SignUpController>();
+  final _addEmployeeController = Get.find<AddEmployeeController>();
   const _stepIndex = 0;
   return Step(
     title: const Text('BioData'),
@@ -93,9 +91,9 @@ Step _bioStep({
             InputType(
               key: 'fname',
               onChanged: (v) {
-                _signUpController.firstName.value = v.trim();
+                _addEmployeeController.firstName.value = v.trim();
               },
-              val: _signUpController.firstName.value,
+              val: _addEmployeeController.firstName.value,
               decoration: AppTheme.inputDecor(
                 const Icon(Icons.person_outline_rounded),
                 'First Name',
@@ -104,20 +102,31 @@ Step _bioStep({
             InputType(
               key: 'lname',
               onChanged: (v) {
-                _signUpController.lastName.value = v.trim();
+                _addEmployeeController.lastName.value = v.trim();
               },
-              val: _signUpController.lastName.value,
+              val: _addEmployeeController.lastName.value,
               decoration: AppTheme.inputDecor(
                 const Icon(Icons.person_outline_rounded),
                 'Last Name',
               ),
             ),
             InputType(
+              key: 'designation',
+              onChanged: (v) {
+                _addEmployeeController.designation.value = v.trim();
+              },
+              val: _addEmployeeController.designation.value,
+              decoration: AppTheme.inputDecor(
+                const Icon(Icons.assignment_ind_outlined),
+                'Designation',
+              ),
+            ),
+            InputType(
               custom: DropdownButtonFormField<String>(
                 key: const Key('gender'),
-                value: _signUpController.gender.value.isEmpty
+                value: _addEmployeeController.gender.value.isEmpty
                     ? null
-                    : _signUpController.gender.value,
+                    : _addEmployeeController.gender.value,
                 items: const [
                   DropdownMenuItem<String>(
                     value: 'Male',
@@ -129,7 +138,7 @@ Step _bioStep({
                   ),
                 ],
                 onChanged: (v) {
-                  _signUpController.gender.value = v?.trim() ?? '';
+                  _addEmployeeController.gender.value = v?.trim() ?? '';
                 },
                 validator: Validators.required(),
                 isExpanded: true,
@@ -158,7 +167,7 @@ Step _bioStep({
             Expanded(
               child: Button(
                 label: 'NEXT \t >',
-                onPressed: () => _signUpController.next(totalSteps),
+                onPressed: () => _addEmployeeController.next(totalSteps),
               ),
             ),
           ],
@@ -172,7 +181,7 @@ Step _geography({
   required int totalSteps,
   required int currentIndex,
 }) {
-  final _signUpController = Get.find<SignUpController>();
+  final _addEmployeeController = Get.find<AddEmployeeController>();
   const _stepIndex = 1;
   return Step(
     title: const Text('Geography'),
@@ -190,9 +199,9 @@ Step _geography({
             InputType(
               key: 'country',
               onChanged: (v) {
-                _signUpController.country.value = v.trim();
+                _addEmployeeController.country.value = v.trim();
               },
-              val: _signUpController.country.value,
+              val: _addEmployeeController.country.value,
               decoration: AppTheme.inputDecor(
                 const Icon(Icons.location_searching),
                 'Country',
@@ -201,9 +210,9 @@ Step _geography({
             InputType(
               key: 'state',
               onChanged: (v) {
-                _signUpController.state.value = v.trim();
+                _addEmployeeController.state.value = v.trim();
               },
-              val: _signUpController.state.value,
+              val: _addEmployeeController.state.value,
               decoration: AppTheme.inputDecor(
                 const Icon(Icons.map_rounded),
                 'State',
@@ -212,9 +221,9 @@ Step _geography({
             InputType(
               key: 'adddress',
               onChanged: (v) {
-                _signUpController.address.value = v.trim();
+                _addEmployeeController.address.value = v.trim();
               },
-              val: _signUpController.address.value,
+              val: _addEmployeeController.address.value,
               decoration: AppTheme.inputDecor(
                 const Icon(Icons.pin_drop_outlined),
                 'Address',
@@ -230,7 +239,7 @@ Step _geography({
             Expanded(
               child: TextButton(
                 onPressed: () {
-                  _signUpController.back();
+                  _addEmployeeController.back();
                 },
                 child: const Text('< \t BACK'),
               ),
@@ -238,83 +247,8 @@ Step _geography({
             const Spacer(),
             Expanded(
               child: Button(
-                label: 'NEXT \t >',
-                onPressed: () => _signUpController.next(totalSteps),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-Step _login({
-  required int totalSteps,
-  required int currentIndex,
-}) {
-  final _signUpController = Get.find<SignUpController>();
-  const _stepIndex = 2;
-  return Step(
-    title: const Text('Login'),
-    state: currentIndex == _stepIndex
-        ? StepState.editing
-        : currentIndex < _stepIndex
-            ? StepState.indexed
-            : StepState.complete,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        RenderFormInputs(
-          inputs: [
-            InputType(
-              onChanged: (v) {
-                _signUpController.username.value = v.trim();
-              },
-              decoration: AppTheme.inputDecor(
-                const Icon(Icons.account_circle_outlined),
-                'UserName',
-              ),
-              val: _signUpController.username.value,
-            ),
-            InputType(
-              onChanged: (v) {
-                _signUpController.password.value = v.trim();
-              },
-              decoration: AppTheme.inputDecor(
-                  const Icon(Icons.short_text_rounded), 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _signUpController.showPass.value
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                    ),
-                    onPressed: _signUpController.togglePasswordVisibility,
-                  )),
-              val: _signUpController.password.value,
-              obscure: !_signUpController.showPass.value,
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: TextButton(
-                child: Text('< \t BACK'),
-                onPressed: () {
-                  _signUpController.back();
-                },
-              ),
-            ),
-            const Spacer(),
-            Expanded(
-              child: Button(
-                label: 'SIGN IN',
-                onPressed: () => _signUpController.next(totalSteps),
+                label: 'CREATE \t >',
+                onPressed: () => _addEmployeeController.next(totalSteps),
               ),
             ),
           ],

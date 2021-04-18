@@ -21,7 +21,7 @@ class EmptyListPlaceholder extends StatelessWidget {
     final Widget _iconWidget = Icon(
       icon,
       size: 40,
-      color: AppTheme.primaryColorL.withOpacity(0.6),
+      color: AppTheme.primaryColorL.withOpacity(0.55),
     );
 
     final _children = [

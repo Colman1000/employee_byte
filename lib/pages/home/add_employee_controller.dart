@@ -1,33 +1,23 @@
 import 'package:employee_byte/globals/helpers.dart';
-import 'package:employee_byte/models/admin.dart';
+import 'package:employee_byte/models/employee.dart';
+import 'package:employee_byte/pages/home/home_controller.dart';
 import 'package:get/get.dart';
-import 'package:sembast/sembast.dart';
 
-import '../../app_controller.dart';
-
-class SignUpController extends GetxController {
+class AddEmployeeController extends GetxController {
   final firstName = ''.obs;
   final lastName = ''.obs;
   final gender = ''.obs;
+  final designation = ''.obs;
   final dateOfBirth = DateTime.now().obs;
-  final passport = ''.obs; //TODO: get passport image
+  final passport = ''.obs;
   final address = ''.obs;
   final country = ''.obs;
   final state = ''.obs;
-  final username = ''.obs;
-  final password = ''.obs;
 
   final _step = 0.obs;
 
-  final showPass = false.obs;
-
-  void togglePasswordVisibility() {
-    showPass.value = !showPass.value;
-  }
-
-  Future _saveUser() async {
-    //TODO: Sign user in
-    final _admin = Admin(
+  Future _saveEmployee() async {
+    final _employee = Employee(
       firstname: firstName.value,
       lastname: lastName.value,
       dateOfBirth: dateOfBirth.value,
@@ -36,22 +26,11 @@ class SignUpController extends GetxController {
       state: state.value,
       address: address.value,
       passportPhoto: passport.value,
-      password: password.value,
-      username: username.value,
+      designation: designation.value,
     );
 
-    //TODO: Save user to DB
-
-    //TODO: refactor stores for ease of use... eg Store.users => 'users'
-
-    final store = intMapStoreFactory.store('users');
-
-    final db = Get.find<DB>();
-
-    await store.add(db.instance!, _admin.toMap());
-
-    Get.find<AppController>().user.value = _admin;
-    //UI should auto switch to main page
+    await Get.find<HomeController>().addEmployee(_employee);
+    Get.back();
   }
 
   void next(int maxSteps) {
@@ -81,19 +60,8 @@ class SignUpController extends GetxController {
           type: SnackBarType.error,
         );
       }
-    }
-    if (_step.value == 2) {
-      final _isValid = username.value.isNotEmpty && password.value.isNotEmpty;
 
-      if (!_isValid) {
-        return Helpers.showSnackBar(
-          'All fields are required',
-          type: SnackBarType.error,
-        );
-      }
-      _saveUser();
-
-      return;
+      _saveEmployee();
     }
 
     if (_step.value >= maxSteps) {

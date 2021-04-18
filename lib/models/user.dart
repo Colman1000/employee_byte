@@ -35,6 +35,8 @@ abstract class User {
   final String country;
   final String state;
 
+  String get fullName => '$firstname $lastname';
+
   Map<String, String> get _toMap => {
         'firstname': firstname,
         'lastname': lastname,
