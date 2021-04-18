@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Cover extends StatelessWidget {
-  const Cover({Key? key, required this.child}) : super(key: key);
+  const Cover({Key? key, required this.child, this.fab}) : super(key: key);
   final Widget child;
+  final FloatingActionButton? fab;
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +11,7 @@ class Cover extends StatelessWidget {
       body: SafeArea(
         child: child,
       ),
+      floatingActionButton: fab,
     );
   }
 }

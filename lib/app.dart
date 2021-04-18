@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'pages/auth/auth.dart';
+import 'pages/home/home_controller.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -17,11 +18,16 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.dark,
       title: 'Employee Byte',
-      onInit: () {
+      onInit: () async {
         //Initialize Controllers
         Get.put<AppController>(AppController(), permanent: true);
         Get.put<AuthController>(AuthController(), permanent: true);
-        Get.putAsync<DB>(() async => DB()..init(), permanent: true);
+        final db = await Get.putAsync<DB>(
+          () async => DB()..init(),
+          permanent: true,
+        );
+        //TODO: improve this. [HomeController] should not totally depend on [DB]
+        Get.put<HomeController>(HomeController(db), permanent: true);
       },
       home: Obx(
         () {

@@ -22,5 +22,25 @@ class Employee extends User {
           passportPhoto: passportPhoto,
         );
 
+  factory Employee.fromMap(Map<String, Object?> m) {
+    return Employee(
+      firstname: m['firstname'].toString(),
+      lastname: m['lastname'].toString(),
+      gender: m['gender'].toString(),
+      dateOfBirth: DateTime.parse(m['dateOfBirth'].toString()),
+      address: m['address'].toString(),
+      country: m['country'].toString(),
+      state: m['state'].toString(),
+      designation: m['designation'].toString(),
+    );
+  }
+
   final String designation;
+
+  @override
+  Map<String, String> toMap({Map<String, String>? additionalInfo}) {
+    return super.toMap(
+      additionalInfo: {'designation': designation},
+    );
+  }
 }

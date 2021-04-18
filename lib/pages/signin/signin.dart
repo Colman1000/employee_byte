@@ -88,7 +88,7 @@ class SignIn extends StatelessWidget {
               onPressed: () {
                 _authController.goTo(AuthPage.signUp);
               },
-              child: Text('SIGN IN'),
+              child: const Text('REGISTER'),
             ),
             const SizedBox(
               height: 15,

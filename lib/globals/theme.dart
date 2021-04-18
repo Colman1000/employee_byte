@@ -67,10 +67,12 @@ class AppTheme {
 
   static InputDecoration inputDecor(
     Widget icon,
-    String label,
-  ) {
+    String label, {
+    Widget? suffixIcon,
+  }) {
     return InputDecoration(
       prefixIcon: icon,
+      suffixIcon: suffixIcon,
       hintText: label,
     );
   }

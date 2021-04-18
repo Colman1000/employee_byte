@@ -46,11 +46,11 @@ abstract class User {
         'state': state,
       };
 
-  Map<String, String> toMap(Map<String, String>? additionalInfo) {
+  Map<String, String> toMap({Map<String, String>? additionalInfo}) {
     return {..._toMap, ...?additionalInfo};
   }
 
-  String toJson(Map<String, String>? additionalInfo) {
+  String toJson({Map<String, String>? additionalInfo}) {
     return jsonEncode({..._toMap, ...?additionalInfo});
   }
 }

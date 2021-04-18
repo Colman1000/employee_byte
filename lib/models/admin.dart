@@ -39,4 +39,14 @@ class Admin extends User {
 
   final String password;
   final String username;
+
+  @override
+  Map<String, String> toMap({Map<String, String>? additionalInfo}) {
+    return super.toMap(
+      additionalInfo: {
+        'username': username,
+        'password': password,
+      },
+    );
+  }
 }

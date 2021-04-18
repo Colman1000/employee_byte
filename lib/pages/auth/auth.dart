@@ -18,7 +18,7 @@ class Auth extends StatelessWidget {
       child: Obx(
         () => PageTransitionSwitcher(
           duration: const Duration(milliseconds: 250),
-          reverse: _authController.currentPage.index >
+          reverse: _authController.currentPage.index <
               _authController.prevPage.index,
           transitionBuilder: (
             child,

@@ -33,7 +33,7 @@ class SignInController extends GetxController {
       final store = intMapStoreFactory.store('users');
 
       final finder = Finder(
-        filter: Filter.greaterThan('username', user.value.toLowerCase()),
+        filter: Filter.equals('username', user.value.toLowerCase()),
         limit: 1,
       );
 
@@ -48,15 +48,21 @@ class SignInController extends GetxController {
         );
       }
 
-      if (records.first.value['password'] == pass.value) {
-        return Helpers.showSnackBar('Wrong password');
+      if (records.first.value['password'] != pass.value) {
+        return Helpers.showSnackBar(
+          'Wrong password',
+          type: SnackBarType.error,
+        );
       }
 
       final appController = Get.find<AppController>();
 
       appController.user.value = Admin.fromMap(records.first.value);
     } catch (e) {
-      return Helpers.showSnackBar('An unexpected error occurred');
+      return Helpers.showSnackBar(
+        'An unexpected error occurred',
+        type: SnackBarType.error,
+      );
     } finally {
       isLoggingIn.value = false;
     }
