@@ -29,6 +29,7 @@ class EmployeeTileDisplay extends StatelessWidget {
             child: PassportViewer(
               size: 50,
               value: employee.passportPhoto,
+              user: employee.lastname,
             ),
           ),
         ),

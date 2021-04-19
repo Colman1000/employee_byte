@@ -424,10 +424,10 @@ Step _login({
           children: [
             Expanded(
               child: TextButton(
-                child: Text('< \t BACK'),
                 onPressed: () {
                   _signUpController.back();
                 },
+                child: const Text('< \t BACK'),
               ),
             ),
             const Spacer(),

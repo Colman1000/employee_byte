@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:employee_byte/app_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PassportViewer extends StatelessWidget {
-  const PassportViewer({Key? key, this.size = 100, this.value})
+  const PassportViewer({Key? key, this.size = 100, this.value, this.user})
       : super(key: key);
 
   final double size;
   final String? value;
+  final String? user;
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +19,16 @@ class PassportViewer extends StatelessWidget {
         width: size,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(size),
-          color: Colors.grey.shade800,
+          color: Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
           border: Border.all(
-            color: Colors.grey.shade800,
+            color: Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
           ),
         ),
         child: Material(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(size),
           child: Padding(
-            padding: EdgeInsets.all(size * 0.1),
+            padding: EdgeInsets.all(size * 0.06),
             child: value == null
                 ? Container(
                     decoration: BoxDecoration(
@@ -37,8 +37,7 @@ class PassportViewer extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        Get.find<AppController>().user.value?.username[0] ??
-                            '@',
+                        user == null ? '@' : user![0].toUpperCase(),
                         style: Get.textTheme.overline?.copyWith(
                           fontSize: size * 0.4,
                         ),
