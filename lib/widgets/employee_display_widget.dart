@@ -1,4 +1,5 @@
 import 'package:employee_byte/models/employee.dart';
+import 'package:employee_byte/widgets/passport_viewer.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeTileDisplay extends StatelessWidget {
@@ -20,6 +21,17 @@ class EmployeeTileDisplay extends StatelessWidget {
       child: ListTile(
         title: Text(employee.fullName),
         subtitle: Text(employee.designation),
+        leading: SizedBox(
+          height: 50,
+          width: 50,
+          child: Hero(
+            tag: employee.passportPhoto ?? employee.fullName,
+            child: PassportViewer(
+              size: 50,
+              value: employee.passportPhoto,
+            ),
+          ),
+        ),
         trailing: const Icon(Icons.person_outline),
         enableFeedback: true,
         onTap: () {

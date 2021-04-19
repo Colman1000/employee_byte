@@ -11,7 +11,7 @@ class SignUpController extends GetxController {
   final lastName = ''.obs;
   final gender = ''.obs;
   final dateOfBirth = Rx<DateTime?>(null);
-  final passport = ''.obs; //TODO: get passport image
+  final passport = ''.obs;
   final address = ''.obs;
   final country = ''.obs;
   final state = ''.obs;
@@ -55,6 +55,7 @@ class SignUpController extends GetxController {
     await store.add(db.instance!, _admin.toMap());
 
     Get.find<AppController>().user.value = _admin;
+    reset();
     //UI should auto switch to main page
   }
 
@@ -88,7 +89,9 @@ class SignUpController extends GetxController {
       }
     }
     if (_step.value == 2) {
-      final _isValid = username.value.isNotEmpty && password.value.isNotEmpty;
+      final _isValid = username.value.isNotEmpty &&
+          password.value.isNotEmpty &&
+          passport.value.isNotEmpty;
 
       if (!_isValid) {
         return Helpers.showSnackBar(
@@ -112,6 +115,26 @@ class SignUpController extends GetxController {
       return;
     }
     _step.value--;
+  }
+
+  void reset() {
+    firstName.value = '';
+    lastName.value = '';
+    gender.value = '';
+    dateOfBirth.value = null;
+    passport.value = '';
+    address.value = '';
+    country.value = '';
+    state.value = '';
+    username.value = '';
+    password.value = '';
+
+    uiState.value = ''; //used for updating ui when a state is selected
+    uiStates.value = [];
+
+    _step.value = 0;
+
+    showPass.value = false;
   }
 
   int get step => _step.value;

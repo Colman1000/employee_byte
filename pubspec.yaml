@@ -9,6 +9,7 @@ dependencies:
     sdk: flutter
   flutter_typeahead: ^3.1.1
   get: ^4.1.4
+  image_picker: ^0.7.4
   path: ^1.8.0
   path_provider: ^2.0.1
   sembast: ^3.0.1
@@ -16,7 +17,6 @@ dependencies:
 
 dev_dependencies:
   lint: ^1.5.3
-  local_google_fonts: ^1.0.8
   flutter_test:
     sdk: flutter
 environment:
@@ -68,8 +68,3 @@ flutter:
         - asset: "assets/fonts/Open-Sans/Open-Sans-800.ttf"
           weight: 800
   uses-material-design: true
-google_fonts:
-  path: "assets/fonts"
-  fonts:
-    - "Roboto Condensed"
-    - "Open Sans"

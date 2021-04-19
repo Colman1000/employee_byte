@@ -6,6 +6,8 @@ import 'package:employee_byte/pages/auth/auth_controller.dart';
 import 'package:employee_byte/pages/signup/sign_up_controller.dart';
 import 'package:employee_byte/widgets/button.dart';
 import 'package:employee_byte/widgets/cover.dart';
+import 'package:employee_byte/widgets/date_picker_widget.dart';
+import 'package:employee_byte/widgets/passport_picker_widget.dart';
 import 'package:employee_byte/widgets/render_form_inputs.dart';
 import 'package:flutter/cupertino.dart' hide State;
 import 'package:flutter/material.dart' hide State;
@@ -147,6 +149,15 @@ Step _bioStep({
                     horizontal: 10,
                   ),
                 ),
+              ),
+            ),
+            InputType(
+              custom: DatePickerWidget(
+                onChanged: (v) {
+                  _signUpController.dateOfBirth.value = v;
+                },
+                value: _signUpController.dateOfBirth.value,
+                hintText: 'Select Date of Birth',
               ),
             ),
           ],
@@ -367,6 +378,16 @@ Step _login({
       children: [
         RenderFormInputs(
           inputs: [
+            InputType(
+              custom: Obx(
+                () => PassportPickerWidget(
+                  onChanged: (v) {
+                    _signUpController.passport.value = v ?? '';
+                  },
+                  value: _signUpController.passport.value,
+                ),
+              ),
+            ),
             InputType(
               onChanged: (v) {
                 _signUpController.username.value = v.trim();

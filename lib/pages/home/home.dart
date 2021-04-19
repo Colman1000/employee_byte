@@ -15,7 +15,6 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _homeController = Get.find<HomeController>();
-
     return Cover(
       fab: FloatingActionButton(
         onPressed: () {

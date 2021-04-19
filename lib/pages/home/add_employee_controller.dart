@@ -35,6 +35,7 @@ class AddEmployeeController extends GetxController {
     );
 
     await Get.find<HomeController>().addEmployee(_employee);
+    reset();
     Get.back();
   }
 
@@ -55,7 +56,19 @@ class AddEmployeeController extends GetxController {
         );
       }
     }
+
     if (_step.value == 1) {
+      final _isValid =
+          passport.value.isNotEmpty && designation.value.isNotEmpty;
+      if (!_isValid) {
+        return Helpers.showSnackBar(
+          'All fields are required',
+          type: SnackBarType.error,
+        );
+      }
+    }
+
+    if (_step.value == 2) {
       final _isValid = address.value.isNotEmpty &&
           country.value.isNotEmpty &&
           state.value.isNotEmpty;
@@ -81,6 +94,24 @@ class AddEmployeeController extends GetxController {
       return;
     }
     _step.value--;
+  }
+
+  void reset() {
+    firstName.value = '';
+    lastName.value = '';
+    gender.value = '';
+    designation.value = '';
+    dateOfBirth.value = null;
+    passport.value = '';
+    address.value = '';
+    country.value = '';
+    state.value = '';
+
+    //For ui update only
+    uiState.value = ''; //used for updating ui when a state is selected
+    uiStates.value = [];
+
+    _step.value = 0;
   }
 
   int get step => _step.value;

@@ -4,6 +4,7 @@ import 'package:employee_byte/models/employee.dart';
 import 'package:employee_byte/pages/view_employee/view_employee_controller.dart';
 import 'package:employee_byte/widgets/cover.dart';
 import 'package:employee_byte/widgets/header.dart';
+import 'package:employee_byte/widgets/passport_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,15 @@ class ViewEmployee extends StatelessWidget {
     final _viewEmployeeController = Get.find<ViewEmployeeController>();
 
     final _viewItems = [
+      const SizedBox(
+        height: 20,
+      ),
+      Hero(
+        tag: employee.passportPhoto ?? employee.fullName,
+        child: PassportViewer(
+          value: employee.passportPhoto,
+        ),
+      ),
       const SizedBox(
         height: 20,
       ),

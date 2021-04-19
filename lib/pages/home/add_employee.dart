@@ -6,6 +6,7 @@ import 'package:employee_byte/pages/home/add_employee_controller.dart';
 import 'package:employee_byte/widgets/button.dart';
 import 'package:employee_byte/widgets/cover.dart';
 import 'package:employee_byte/widgets/date_picker_widget.dart';
+import 'package:employee_byte/widgets/passport_picker_widget.dart';
 import 'package:employee_byte/widgets/render_form_inputs.dart';
 import 'package:flutter/cupertino.dart' hide State;
 import 'package:flutter/material.dart' hide State;
@@ -52,12 +53,16 @@ class AddEmployeeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final _addEmployeeController = Get.find<AddEmployeeController>();
 
-    const _stepsIndexCount = 1;
+    const _stepsIndexCount = 2;
 
     return Obx(
       () => Stepper(
         steps: [
           _bioStep(
+            totalSteps: _stepsIndexCount,
+            currentIndex: _addEmployeeController.step,
+          ),
+          _account(
             totalSteps: _stepsIndexCount,
             currentIndex: _addEmployeeController.step,
           ),
@@ -149,17 +154,6 @@ Step _bioStep({
               ),
             ),
             InputType(
-              key: 'designation',
-              onChanged: (v) {
-                _addEmployeeController.designation.value = v.trim();
-              },
-              val: _addEmployeeController.designation.value,
-              decoration: AppTheme.inputDecor(
-                const Icon(Icons.assignment_ind_outlined),
-                'Designation',
-              ),
-            ),
-            InputType(
               custom: DatePickerWidget(
                 onChanged: (v) {
                   _addEmployeeController.dateOfBirth.value = v;
@@ -192,12 +186,81 @@ Step _bioStep({
   );
 }
 
-Step _geography({
+Step _account({
   required int totalSteps,
   required int currentIndex,
 }) {
   final _addEmployeeController = Get.find<AddEmployeeController>();
   const _stepIndex = 1;
+  return Step(
+    title: const Text('Account'),
+    state: currentIndex == _stepIndex
+        ? StepState.editing
+        : currentIndex < _stepIndex
+            ? StepState.indexed
+            : StepState.complete,
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        RenderFormInputs(
+          inputs: [
+            InputType(
+              custom: Obx(
+                () => PassportPickerWidget(
+                  onChanged: (v) {
+                    _addEmployeeController.passport.value = v ?? '';
+                  },
+                  value: _addEmployeeController.passport.value,
+                ),
+              ),
+            ),
+            InputType(
+              key: 'designation',
+              onChanged: (v) {
+                _addEmployeeController.designation.value = v.trim();
+              },
+              val: _addEmployeeController.designation.value,
+              decoration: AppTheme.inputDecor(
+                const Icon(Icons.assignment_ind_outlined),
+                'Designation',
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: TextButton(
+                onPressed: () {
+                  _addEmployeeController.back();
+                },
+                child: const Text('< \t BACK'),
+              ),
+            ),
+            const Spacer(),
+            Expanded(
+              child: Button(
+                label: 'NEXT \t >',
+                onPressed: () => _addEmployeeController.next(totalSteps),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+Step _geography({
+  required int totalSteps,
+  required int currentIndex,
+}) {
+  final _addEmployeeController = Get.find<AddEmployeeController>();
+  const _stepIndex = 2;
   return Step(
     title: const Text('Geography'),
     state: currentIndex == _stepIndex
