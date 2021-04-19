@@ -36,9 +36,12 @@ class PassportPickerWidget extends StatelessWidget {
             width: size,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(size),
-              color: Colors.grey.shade800,
+              color:
+                  Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
               border: Border.all(
-                color: Colors.grey.shade800,
+                color: Get.isDarkMode
+                    ? Colors.grey.shade800
+                    : Colors.grey.shade300,
               ),
             ),
             child: Obx(
@@ -76,7 +79,7 @@ class PassportPickerWidget extends StatelessWidget {
                             },
                             borderRadius: BorderRadius.circular(size),
                             child: Padding(
-                              padding: const EdgeInsets.all(10),
+                              padding: EdgeInsets.all(size * 0.06),
                               child: AnimatedContainer(
                                 duration: 200.milliseconds,
                                 curve: Curves.decelerate,

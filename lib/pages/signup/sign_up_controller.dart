@@ -30,7 +30,6 @@ class SignUpController extends GetxController {
   }
 
   Future _saveUser() async {
-    //TODO: Sign user in
     final _admin = Admin(
       firstname: firstName.value,
       lastname: lastName.value,
@@ -43,8 +42,6 @@ class SignUpController extends GetxController {
       password: password.value,
       username: username.value,
     );
-
-    //TODO: Save user to DB
 
     //TODO: refactor stores for ease of use... eg Store.users => 'users'
 

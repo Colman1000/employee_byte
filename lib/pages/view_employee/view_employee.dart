@@ -33,6 +33,7 @@ class ViewEmployee extends StatelessWidget {
         tag: employee.passportPhoto ?? employee.fullName,
         child: PassportViewer(
           value: employee.passportPhoto,
+          user: employee.lastname,
         ),
       ),
       const SizedBox(
