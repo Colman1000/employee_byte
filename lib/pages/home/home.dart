@@ -9,7 +9,7 @@ import 'package:employee_byte/widgets/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -134,12 +134,12 @@ class Home extends StatelessWidget {
                           Align(
                             child: SelectableText(
                               '+234 806 311 3147',
-                              onTap: () async {
+                              /*onTap: () async {
                                 const _tel = 'tel:+2348063113147';
                                 if (await canLaunch(_tel)) {
                                   launch(_tel);
                                 }
-                              },
+                              },*/
                               style: const TextStyle().copyWith(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.w400,
@@ -184,15 +184,6 @@ class Home extends StatelessWidget {
                       Get.changeThemeMode(
                         Get.isDarkMode ? ThemeMode.light : ThemeMode.dark,
                       );
-
-                      final isDarkMode = Get.isDarkMode;
-
-                      /*Get.find<AppController>().isDarkThemeMode(isDarkMode);
-
-                      unawaited(GetStorage().write(
-                        QwikSharedPreferences.userDarkModePreference,
-                        Get.isDarkMode ? 'l' : 'd',
-                      ));*/
                       Get.forceAppUpdate();
                     }
                     if (v == 'logout') {

@@ -13,7 +13,7 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.1
   sembast: ^3.0.1
-  url_launcher: ^6.0.3
+#  url_launcher: ^6.0.3
 
 dev_dependencies:
   lint: ^1.5.3

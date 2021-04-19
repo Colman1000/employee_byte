@@ -10,4 +10,4 @@ Mobile Developer: Remote Assessment
 
 * Run _flutter pub get_ to download all dependencies.. if you have any issues... Google is your best friend
 
-* Fire up your emulator and run _flutter run --no-sound-null-safety_ the '--no-sound-null-safety' is quite important
+* Fire up your emulator and run _flutter run_

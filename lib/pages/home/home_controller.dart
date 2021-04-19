@@ -33,7 +33,7 @@ class HomeController extends GetxController {
 
     final db = Get.find<DB>();
 
-    final deleted = await store.record(key).delete(db.instance!);
+    await store.record(key).delete(db.instance!);
 
     final _allEmployees = employees.value..remove(key);
     employees.value = {

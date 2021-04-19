@@ -35,7 +35,7 @@ class SignUp extends StatelessWidget {
             onPressed: () {
               _authController.goTo(AuthPage.signIn);
             },
-            child: Text('SIGN IN AS ADMIN'),
+            child: const Text('SIGN IN AS ADMIN'),
           ),
           const SizedBox(
             height: 15,

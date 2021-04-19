@@ -181,7 +181,7 @@ class Helpers {
               isDestructiveAction: true,
               child: Text(
                 'YES',
-                style: TextStyle().copyWith(fontFamily: _font),
+                style: const TextStyle().copyWith(fontFamily: _font),
               ),
             ),
           ],

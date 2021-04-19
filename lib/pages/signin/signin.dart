@@ -37,7 +37,7 @@ class SignIn extends StatelessWidget {
       ),
       TextFormField(
         decoration: AppTheme.inputDecor(
-          Icon(Icons.person_outline_rounded),
+          const Icon(Icons.person_outline_rounded),
           'Username',
         ),
         validator: Validators.required(),
@@ -49,7 +49,7 @@ class SignIn extends StatelessWidget {
       ),
       TextFormField(
         decoration: AppTheme.inputDecor(
-          Icon(Icons.lock_outline),
+          const Icon(Icons.lock_outline),
           'Password',
         ),
         validator: Validators.required(),

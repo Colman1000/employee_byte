@@ -22,7 +22,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final _noAction = actions == null || (actions?.isEmpty ?? true);
 
-    final _actions = _noAction ? <Widget>[] : actions as List<Widget>;
+    final _actions = _noAction ? <Widget>[] : actions!;
 
     return Column(
       children: <Widget>[
